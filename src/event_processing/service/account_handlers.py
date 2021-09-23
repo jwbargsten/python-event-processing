@@ -1,8 +1,8 @@
 from typing import List, Dict, Callable, Type
 from datetime import datetime
 import event_processing.domain.account_events as events
-from event_processing.service import Services
 from event_processing.domain.model import BankAccount
+from event_processing.service import Services
 
 
 def open_account(event: events.AccountOpened, services: Services):
@@ -10,7 +10,7 @@ def open_account(event: events.AccountOpened, services: Services):
         accountUID=event.accountUID,
         accountNumber=event.accountNumber,
         ownerName=event.ownerName,
-        ownerBirthDate=event.ownerBirthDate
+        ownerBirthDate=event.ownerBirthDate,
     )
 
     # here we enrich the account with data from the user service
@@ -23,11 +23,15 @@ def open_account(event: events.AccountOpened, services: Services):
 
 def deposit_order(event: events.DepositOrderAccepted, services: Services):
     account = services.account.fetch(event.aggregateId)
+    if not account:
+        raise LookupError(f"could not find account {event.aggregateId}")
     account.balanceInCents = account.balanceInCents + event.amountInCents
 
 
 def withdraw_order(event: events.WithdrawOrderAccepted, services: Services):
     account = services.account.fetch(event.aggregateId)
+    if not account:
+        raise LookupError(f"could not find account {event.aggregateId}")
     account.balanceInCents = account.balanceInCents - event.amountInCents
     account.lastTransactionTimestamp = datetime.now()
     services.account.store(account)
@@ -35,12 +39,16 @@ def withdraw_order(event: events.WithdrawOrderAccepted, services: Services):
 
 def reject_withdraw_order(event: events.WithdrawOrderRejected, services: Services):
     account = services.account.fetch(event.aggregateId)
+    if not account:
+        raise LookupError(f"could not find account {event.aggregateId}")
     account.withdrawRejectionCount = account.withdrawRejectionCount + 1
     services.account.store(account)
 
 
 def close_account(event: events.AccountClosed, services: Services):
     account = services.account.fetch(event.aggregateId)
+    if not account:
+        raise LookupError(f"could not find account {event.aggregateId}")
     account.closed = True
     services.account.store(account)
 

@@ -7,4 +7,3 @@ from event_processing.service.user import UserService
 class Services:
     account: AccountService
     user: UserService
-

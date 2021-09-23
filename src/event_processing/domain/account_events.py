@@ -1,6 +1,6 @@
 from typing import List, Set, Dict, Tuple, Optional
 from dataclasses import dataclass
-from datetime import datetime,date
+from datetime import datetime, date
 
 
 @dataclass
@@ -34,4 +34,3 @@ class WithdrawOrderRejected(Event):
 @dataclass
 class AccountClosed(Event):
     pass
-

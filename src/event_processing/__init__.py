@@ -29,13 +29,9 @@ class EventHandler:
                 continue
 
 
-def inject_dependencies(
-    handlers: Dict[Type[events.Event], List[Callable]], services: Services
-):
+def inject_dependencies(handlers: Dict[Type[events.Event], List[Callable]], services: Services):
     injected_event_handlers = {
-        event_type: [
-            lambda event: handler(event, services) for handler in event_handlers
-        ]
+        event_type: [lambda event: handler(event, services) for handler in event_handlers]
         for event_type, event_handlers in handlers.items()
     }
     return EventHandler(injected_event_handlers)
