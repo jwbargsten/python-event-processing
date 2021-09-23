@@ -12,6 +12,7 @@ class BankAccount:
     lastTransactionTimestamp: datetime
     withdrawRejectionCount: int
     closed: bool
+    email: Optional[str]
 
     def __init__(self, accountUID, accountNumber, ownerName, ownerBirthDate) -> None:
         self.accountUID = accountUID
@@ -21,3 +22,9 @@ class BankAccount:
         self.balanceInCents = 0
         self.withdrawRejectionCount = 0
         self.closed = False
+
+
+@dataclass
+class User:
+    accountUID: str
+    email: str
