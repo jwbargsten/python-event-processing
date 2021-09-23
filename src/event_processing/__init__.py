@@ -3,7 +3,7 @@ from event_processing.service import Services
 import event_processing.domain.account_events as events
 import event_processing.service.account_handlers as handlers
 from event_processing.service.account import AccountService
-from event_processing.service.user import UserService
+from event_processing.service.user import user_service
 import logging
 
 __version__ = "0.1.0"
@@ -43,6 +43,6 @@ def init():
     # check
     # https://github.com/cosmicpython/code/blob/69a88f8e05d549cc4cf01a91cd33b0fc4d87014d/src/allocation/bootstrap.py#L44
     account_service = AccountService()
-    user_service = UserService()
+    # user_service is using the standard python way: importing the dependency implicitly
     services = Services(account_service, user_service)
     inject_dependencies(handlers.EVENT_HANDLERS, services)

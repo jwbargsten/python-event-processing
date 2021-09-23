@@ -1,5 +1,6 @@
 from event_processing import __version__, inject_dependencies
 from event_processing.service import Services, UserService
+from event_processing.service.user import user_service
 from datetime import date
 from event_processing.domain.model import BankAccount, User
 import event_processing.service.account_handlers as handlers
@@ -43,7 +44,7 @@ def test_basic_events(monkeypatch):
         ownerBirthDate=date.fromisoformat("1954-07-17"),
     )
 
-    services = Services(account=MockAccountService(), user=UserService())
+    services = Services(account=MockAccountService(), user=user_service)
     event_handler = inject_dependencies(handlers.EVENT_HANDLERS, services)
     event_handler.handle(event1)
     assert services.account.tmpAccount.accountUID == "agg1"
