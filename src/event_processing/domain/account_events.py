@@ -1,6 +1,6 @@
 from typing import List, Set, Dict, Tuple, Optional
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime,date
 
 
 @dataclass
@@ -10,17 +10,20 @@ class Event:
 
 @dataclass
 class AccountOpened(Event):
-    pass
+    accountUID: str
+    accountNumber: str
+    ownerName: str
+    ownerBirthDate: date
 
 
 @dataclass
 class DepositOrderAccepted(Event):
-    pass
+    amountInCents: int
 
 
 @dataclass
 class WithdrawOrderAccepted(Event):
-    pass
+    amountInCents: int
 
 
 @dataclass
@@ -31,5 +34,4 @@ class WithdrawOrderRejected(Event):
 @dataclass
 class AccountClosed(Event):
     pass
-
 

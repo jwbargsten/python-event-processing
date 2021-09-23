@@ -42,6 +42,10 @@ def inject_dependencies(
 
 
 def init():
+    # this is a very simple version of dependency "injection".
+    # To see something more sophisticated and probably more clean,
+    # check
+    # https://github.com/cosmicpython/code/blob/69a88f8e05d549cc4cf01a91cd33b0fc4d87014d/src/allocation/bootstrap.py#L44
     account_service = AccountService()
     user_service = UserService()
     services = Services(account_service, user_service)

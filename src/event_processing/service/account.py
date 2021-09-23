@@ -1,10 +1,13 @@
+from typing import Dict
 from event_processing.domain.account_model import BankAccount
+from contextlib import contextmanager
+
+_store = {}  # type: Dict[str, BankAccount]
 
 
 class AccountService:
-    def fetch_account(self, account_id: str) -> BankAccount:
-        pass
+    def fetch(self, accountUID: str) -> BankAccount:
+        return _store.get(accountUID, None)
 
-    def store_account(self, account: BankAccount) -> None:
-        pass
-
+    def store(self, account: BankAccount) -> None:
+        _store[account.accountUID] = account
